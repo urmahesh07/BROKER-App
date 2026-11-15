@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BROKER App</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #101010;
+  color: white;
+}
+
+header {
+  padding: 22px;
+  background: #000;
+  border-bottom: 2px solid #d4af37;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  color: #d4af37;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.hero {
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  color: #d4af37;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+button {
+  background: #d4af37;
+  color: black;
+  border: none;
+  padding: 13px 22px;
+  margin: 12px 5px;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.search {
+  padding: 15px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border-radius: 7px;
+  border: 1px solid #d4af37;
+  background: #222;
+  color: white;
+}
+
+h2 {
+  color: #d4af37;
+  margin: 20px 15px;
+}
+
+.cards {
+  padding: 10px 15px;
+}
+
+.card {
+  background: #202020;
+  border: 1px solid #8d7426;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #ddd;
+  margin: 8px 0;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #aaa;
+  border-top: 1px solid #d4af37;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">BROKER.</div>
+  <div>Business Marketplace</div>
+</header>
+
+<section class="hero">
+  <h1>Find Your Next Business</h1>
+  <p>
+    Connect with buyers and sellers.
+    Discover business opportunities
+    in one place.
+  </p>
+  <button onclick="showForm()">Get Started</button>
+</section>
+
+<section class="search">
+  <h2>Find Businesses</h2>
+
+  <input id="searchInput"
+  placeholder="Search business...">
+
+  <select id="category">
+    <option value="all">All Categories</option>
+    <option value="Restaurant">Restaurant</option>
+    <option value="Shop">Shop</option>
+    <option value="Real Estate">Real Estate</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <button onclick="searchBusinesses()">Search</button>
+</section>
+
+<h2>Featured Listings</h2>
+
+<section class="cards" id="listings">
+
+<div class="card" data-category="Restaurant">
+<h3>Restaurant Business</h3>
+<p>Category: Restaurant</p>
+<p>Location: Pakistan</p>
+<p>Contact: Available on request</p>
+<button onclick="contactSeller('Restaurant Business')">
+Contact Seller
+</button>
+</div>
+
+<div class="card" data-category="Shop">
+<h3>Retail Shop</h3>
+<p>Category: Shop</p>
+<p>Location: Pakistan</p>
+<p>Contact: Available on request</p>
+<button onclick="contactSeller('Retail Shop')">
+Contact Seller
+</button>
+</div>
+
+<div class="card" data-category="Real Estate">
+<h3>Property Business</h3>
+<p>Category: Real Estate</p>
+<p>Location: Pakistan</p>
+<p>Contact: Available on request</p>
+<button onclick="contactSeller('Property Business')">
+Contact Seller
+</button>
+</div>
+
+</section>
+
+<section class="search" id="sellerForm" hidden>
+<h2>Submit Your Business</h2>
+
+<input id="businessName"
+placeholder="Business Name">
+
+<select id="businessCategory">
+<option>Restaurant</option>
+<option>Shop</option>
+<option>Real Estate</option>
+<option>Other</option>
+</select>
+
+<input id="businessLocation"
+placeholder="Business Location">
+
+<button onclick="submitListing()">Submit Listing</button>
+</section>
+
+<footer>
+<p>BROKER © 2026</p>
+<p>Connecting Buyers & Sellers</p>
+</footer>
+
+<script>
+function showForm() {
+  document.getElementById("sellerForm").hidden = false;
+  document.getElementById("sellerForm").scrollIntoView();
+}
+
+function submitListing() {
+  const name = document.getElementById("businessName").value;
+  const category = document.getElementById("businessCategory").value;
+  const location = document.getElementById("businessLocation").value;
+
+  if (!name || !location) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.category = category;
+  card.innerHTML = `
+    <h3></h3>
+    <p>Category: ${category}</p>
+    <p>Location: ${location}</p>
+  `;
+  card.querySelector("h3").textContent = name;
+
+  document.getElementById("listings").appendChild(card);
+
+  alert("Listing added to this demo!");
+  document.getElementById("businessName").value = "";
+  document.getElementById("businessLocation").value = "";
+}
+
+function searchBusinesses() {
+  const query = document.getElementById("searchInput").value.toLowerCase();
+  const category = document.getElementById("category").value;
+
+  document.querySelectorAll("#listings .card").forEach(card => {
+    const matchesText = card.textContent.toLowerCase().includes(query);
+    const matchesCategory = category === "all" || card.dataset.category === category;
+    card.style.display = matchesText && matchesCategory ? "block" : "none";
+  });
+}
+
+function contactSeller(name) {
+  alert("Seller contact for " + name + " will be available in a future version.");
+}
+</script>
+
+</body>
+</html>
