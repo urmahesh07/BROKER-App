@@ -1,0 +1,14 @@
+
+{
+  "id": "/",
+  "name": "BROKER",
+  "short_name": "BROKER",
+  "description": "General Business Broker Android App. Connect buyers and sellers.",
+  "start_url": "/BROKER-App/",
+  "scope": "/BROKER-App/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101010",
+  "theme_color": "#D4AF37",
+  "icons": []
+}
